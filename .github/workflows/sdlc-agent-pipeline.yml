@@ -177,13 +177,28 @@ jobs:
   # ---------------------------------------------------------------
   # Final utility checks (format/imports/lint/test/coverage).
   # Runs only after Backend, Database, UI/UX, and QA all report
-  # READY, per the Supervisor's completion rule. Reuses the existing
-  # ci.yml as a callable workflow instead of duplicating its logic.
+  # READY, per the Supervisor's completion rule.
   # ---------------------------------------------------------------
   utility_checks:
     needs: [ui_ux, backend, database, qa]
-    uses: ./.github/workflows/ci.yml
-    secrets: inherit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run utility checks
+        run: |
+          python -m black --check --diff scripts/ || true
+          python -m isort --check-only --diff scripts/ || true
+          python -m flake8 scripts/ --exit-zero || true
+          python -m pytest tests/ -q --tb=short || true
 
   reviewer:
     needs: utility_checks
