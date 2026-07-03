@@ -51,12 +51,15 @@ jobs:
           command: |
             if command -v copilot >/dev/null 2>&1; then
               copilot --agent-file .github/chatmodes/business-analyst.chatmode.md \
-                       --prompt "Execute business analysis stage per workflow_spec.md" \
+                       --prompt "Execute business analysis stage per specs\specification.md" \
                        --non-interactive
             else
               echo "Skipping Business Analyst agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/business-analyst
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: business-analyst-output
           path: artifacts/business-analyst/
@@ -66,10 +69,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - name: Download prior analysis artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v4
         with:
           name: business-analyst-output
           path: artifacts/business-analyst/
+      - name: Ensure artifact directory exists
+        run: mkdir -p artifacts/business-analyst
       - name: Prepare Copilot runtime
         run: |
           if command -v copilot >/dev/null 2>&1; then
@@ -91,7 +98,10 @@ jobs:
             else
               echo "Skipping Solution Architect agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/solution-architect
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: solution-architect-output
           path: artifacts/solution-architect/
@@ -133,7 +143,10 @@ jobs:
             else
               echo "Skipping UI/UX agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/ui-ux
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: ui-ux-output
           path: artifacts/ui-ux/
@@ -163,7 +176,10 @@ jobs:
             else
               echo "Skipping Backend agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/backend
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: backend-output
           path: artifacts/backend/
@@ -193,7 +209,10 @@ jobs:
             else
               echo "Skipping Database agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/database
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: database-output
           path: artifacts/database/
@@ -223,7 +242,10 @@ jobs:
             else
               echo "Skipping QA agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/qa
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: qa-output
           path: artifacts/qa/
@@ -279,7 +301,10 @@ jobs:
             else
               echo "Skipping Reviewer agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/reviewer
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: reviewer-output
           path: artifacts/reviewer/
@@ -317,7 +342,10 @@ jobs:
             else
               echo "Skipping Documentation agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/documentation
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: documentation-output
           path: artifacts/documentation/
@@ -347,7 +375,10 @@ jobs:
             else
               echo "Skipping DevOps & Release agent because copilot CLI is unavailable on this runner."
             fi
+      - name: Ensure output directory exists
+        run: mkdir -p artifacts/devops-release
       - uses: actions/upload-artifact@v4
+        if-no-files-found: ignore
         with:
           name: devops-release-output
           path: artifacts/devops-release/
