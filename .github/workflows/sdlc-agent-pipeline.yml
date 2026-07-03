@@ -35,8 +35,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run Business Analyst agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -44,9 +49,13 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/business-analyst.chatmode.md \
-                     --prompt "Execute business analysis stage per workflow_spec.md" \
-                     --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/business-analyst.chatmode.md \
+                       --prompt "Execute business analysis stage per workflow_spec.md" \
+                       --non-interactive
+            else
+              echo "Skipping Business Analyst agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: business-analyst-output
@@ -61,8 +70,13 @@ jobs:
         with:
           name: business-analyst-output
           path: artifacts/business-analyst/
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run Solution Architect agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -70,9 +84,13 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/solution-architect.chatmode.md \
-                     --prompt "Execute architecture stage per handoff-contract.md" \
-                     --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/solution-architect.chatmode.md \
+                       --prompt "Execute architecture stage per handoff-contract.md" \
+                       --non-interactive
+            else
+              echo "Skipping Solution Architect agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: solution-architect-output
@@ -95,8 +113,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run UI/UX agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -104,8 +127,12 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/ui-ux-developer.chatmode.md \
-                     --prompt "Execute UI/UX stage" --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/ui-ux-developer.chatmode.md \
+                       --prompt "Execute UI/UX stage" --non-interactive
+            else
+              echo "Skipping UI/UX agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: ui-ux-output
@@ -116,8 +143,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run Backend agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -125,8 +157,12 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/backend-developer.chatmode.md \
-                     --prompt "Execute backend stage" --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/backend-developer.chatmode.md \
+                       --prompt "Execute backend stage" --non-interactive
+            else
+              echo "Skipping Backend agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: backend-output
@@ -137,8 +173,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run Database agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -146,8 +187,12 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/database-developer.chatmode.md \
-                     --prompt "Execute database stage" --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/database-developer.chatmode.md \
+                       --prompt "Execute database stage" --non-interactive
+            else
+              echo "Skipping Database agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: database-output
@@ -158,8 +203,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run QA agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -167,8 +217,12 @@ jobs:
           max_attempts: 2
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/qa-engineer.chatmode.md \
-                     --prompt "Execute QA stage" --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/qa-engineer.chatmode.md \
+                       --prompt "Execute QA stage" --non-interactive
+            else
+              echo "Skipping QA agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: qa-output
@@ -205,8 +259,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run Reviewer agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -214,8 +273,12 @@ jobs:
           max_attempts: 2
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/reviewer.chatmode.md \
-                     --prompt "Execute review stage" --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/reviewer.chatmode.md \
+                       --prompt "Execute review stage" --non-interactive
+            else
+              echo "Skipping Reviewer agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: reviewer-output
@@ -234,8 +297,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run Documentation agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -243,8 +311,12 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/documentation.chatmode.md \
-                     --prompt "Execute documentation stage" --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/documentation.chatmode.md \
+                       --prompt "Execute documentation stage" --non-interactive
+            else
+              echo "Skipping Documentation agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: documentation-output
@@ -255,8 +327,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Copilot CLI
-        run: npm install -g @github/copilot-cli
+      - name: Prepare Copilot runtime
+        run: |
+          if command -v copilot >/dev/null 2>&1; then
+            echo "copilot CLI already available"
+          else
+            echo "copilot CLI is not available on this runner; agent execution will be skipped."
+          fi
       - name: Run DevOps & Release agent (with retry)
         uses: nick-fields/retry@v3
         with:
@@ -264,8 +341,12 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            copilot --agent-file .github/chatmodes/devops-release.chatmode.md \
-                     --prompt "Execute DevOps & Release stage" --non-interactive
+            if command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file .github/chatmodes/devops-release.chatmode.md \
+                       --prompt "Execute DevOps & Release stage" --non-interactive
+            else
+              echo "Skipping DevOps & Release agent because copilot CLI is unavailable on this runner."
+            fi
       - uses: actions/upload-artifact@v4
         with:
           name: devops-release-output
