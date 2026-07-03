@@ -49,17 +49,25 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/business-analyst.chatmode.md \
-                       --prompt "Execute business analysis stage per specs\specification.md" \
+            AGENT_FILE=.github/agents/01-business-analyst.agent.md
+            mkdir -p artifacts/business-analyst
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
+                       --prompt "Execute business analysis stage per specs/specification.md" \
                        --non-interactive
             else
-              echo "Skipping Business Analyst agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# Business Analyst Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute business analysis stage per specs/specification.md' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/business-analyst/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/business-analyst
+        run: mkdir -p artifacts/business-analyst && echo "No output generated" > artifacts/business-analyst/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: business-analyst-output
           path: artifacts/business-analyst/
@@ -91,17 +99,25 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/solution-architect.chatmode.md \
+            AGENT_FILE=.github/agents/02-solution-architect.agent.md
+            mkdir -p artifacts/solution-architect
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
                        --prompt "Execute architecture stage per handoff-contract.md" \
                        --non-interactive
             else
-              echo "Skipping Solution Architect agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# Solution Architect Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute architecture stage per handoff-contract.md' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/solution-architect/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/solution-architect
+        run: mkdir -p artifacts/solution-architect && echo "No output generated" > artifacts/solution-architect/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: solution-architect-output
           path: artifacts/solution-architect/
@@ -137,16 +153,24 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/ui-ux-developer.chatmode.md \
+            AGENT_FILE=.github/agents/03-ui-ux-developer.agent.md
+            mkdir -p artifacts/ui-ux
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
                        --prompt "Execute UI/UX stage" --non-interactive
             else
-              echo "Skipping UI/UX agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# UI/UX Developer Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute UI/UX stage' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/ui-ux/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/ui-ux
+        run: mkdir -p artifacts/ui-ux && echo "No output generated" > artifacts/ui-ux/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: ui-ux-output
           path: artifacts/ui-ux/
@@ -170,16 +194,24 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/backend-developer.chatmode.md \
+            AGENT_FILE=.github/agents/04-backend-developer.agent.md
+            mkdir -p artifacts/backend
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
                        --prompt "Execute backend stage" --non-interactive
             else
-              echo "Skipping Backend agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# Backend Developer Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute backend stage' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/backend/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/backend
+        run: mkdir -p artifacts/backend && echo "No output generated" > artifacts/backend/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: backend-output
           path: artifacts/backend/
@@ -203,16 +235,24 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/database-developer.chatmode.md \
+            AGENT_FILE=.github/agents/05-database-developer.agent.md
+            mkdir -p artifacts/database
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
                        --prompt "Execute database stage" --non-interactive
             else
-              echo "Skipping Database agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# Database Developer Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute database stage' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/database/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/database
+        run: mkdir -p artifacts/database && echo "No output generated" > artifacts/database/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: database-output
           path: artifacts/database/
@@ -236,16 +276,24 @@ jobs:
           max_attempts: 2
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/qa-engineer.chatmode.md \
+            AGENT_FILE=.github/agents/06-qa-engineer.agent.md
+            mkdir -p artifacts/qa
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
                        --prompt "Execute QA stage" --non-interactive
             else
-              echo "Skipping QA agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# QA Engineer Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute QA stage' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/qa/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/qa
+        run: mkdir -p artifacts/qa && echo "No output generated" > artifacts/qa/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: qa-output
           path: artifacts/qa/
@@ -295,16 +343,24 @@ jobs:
           max_attempts: 2
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/reviewer.chatmode.md \
+            AGENT_FILE=.github/agents/07-reviewer.agent.md
+            mkdir -p artifacts/reviewer
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
                        --prompt "Execute review stage" --non-interactive
             else
-              echo "Skipping Reviewer agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# Reviewer Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute review stage' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/reviewer/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/reviewer
+        run: mkdir -p artifacts/reviewer && echo "No output generated" > artifacts/reviewer/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: reviewer-output
           path: artifacts/reviewer/
@@ -336,16 +392,24 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/documentation.chatmode.md \
+            AGENT_FILE=.github/agents/08-documentation.agent.md
+            mkdir -p artifacts/documentation
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
                        --prompt "Execute documentation stage" --non-interactive
             else
-              echo "Skipping Documentation agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# Documentation Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute documentation stage' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/documentation/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/documentation
+        run: mkdir -p artifacts/documentation && echo "No output generated" > artifacts/documentation/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: documentation-output
           path: artifacts/documentation/
@@ -369,16 +433,24 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 30
           command: |
-            if command -v copilot >/dev/null 2>&1; then
-              copilot --agent-file .github/chatmodes/devops-release.chatmode.md \
+            AGENT_FILE=.github/agents/09-devops.agent.md
+            mkdir -p artifacts/devops-release
+            if [ -f "$AGENT_FILE" ] && command -v copilot >/dev/null 2>&1; then
+              copilot --agent-file "$AGENT_FILE" \
                        --prompt "Execute DevOps & Release stage" --non-interactive
             else
-              echo "Skipping DevOps & Release agent because copilot CLI is unavailable on this runner."
+              printf '%s\n' \
+                '# DevOps & Release Agent Output' \
+                "- Agent file: $AGENT_FILE" \
+                '- Prompt: Execute DevOps & Release stage' \
+                '- Runtime: local-fallback' \
+                '- Status: fallback' \
+                '- Note: Copilot chat runtime was not available on the GitHub runner, so a structured fallback artifact was generated.' > artifacts/devops-release/agent-output.md
+              echo "Generated fallback artifact because the Copilot chat runtime is unavailable."
             fi
       - name: Ensure output directory exists
-        run: mkdir -p artifacts/devops-release
+        run: mkdir -p artifacts/devops-release && echo "No output generated" > artifacts/devops-release/.placeholder
       - uses: actions/upload-artifact@v4
-        if-no-files-found: ignore
         with:
           name: devops-release-output
           path: artifacts/devops-release/
